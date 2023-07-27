@@ -1,7 +1,7 @@
 import "./App.css";
 import Title from "./components/Title";
 import Form from "./components/form/Form";
-import NovoForm from "./components/form/NovoForm";
+//import NovoForm from "./components/form/NovoForm";
 import Container from "./components/layout/Container";
 
 function App() {
@@ -25,7 +25,7 @@ function App() {
           Cadastre-se
         </Title>
 
-        <NovoForm />
+        <Form />
       </Container>
     </Container>
   );
