@@ -1,11 +1,8 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
 //import React from "react";
-import styled from "styled-components";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 import Wrapper from "../layout/Wrapper";
 import Button from "./Button";
-import { WrapperField } from "../layout/Wrapper";
 
 interface IFormInput {
   name: string;
@@ -15,77 +12,49 @@ interface IFormInput {
 
 export default function Form() {
   const { register, handleSubmit } = useForm<IFormInput>();
-  const onSubmit: SubmitHandler<IFormInput> = (data) =>
-    window.alert(JSON.stringify(data));
-  return (
-    <Wrapper>
-      <FormField onSubmit={handleSubmit(onSubmit)}>
-        <WrapperStyled>
-          <Label>Nome</Label>
-          <Input type="text" {...register("name")}></Input>
-        </WrapperStyled>
-        <WrapperStyled>
-          <Label>Email</Label>
-          <Input type="email" {...register("email")}></Input>
-        </WrapperStyled>
-        <WrapperStyled>
-          <Label>Senha</Label>
-          <Input type="password" {...register("password")}></Input>
-        </WrapperStyled>
+  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+    fetch("http://localhost:8080/user", {
+      method: "POST",
+      mode: "cors",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    }).then((res) => {
+      console.log(res);
+    });
 
-        <Button text="Cadastrar" />
-        <Link>Ja tem login?</Link>
-      </FormField>
-    </Wrapper>
+    console.log(data);
+  };
+  return (
+    <div className="w-full h-3/4 mt-4 flex flex-col justify-normal items-center">
+      <form className="flex flex-col w-full h-4/5 justify-normal p-4 items-center gap-5">
+        <div className="flex flex-col justify-between w-full h-3/5 items-center">
+          <input
+            className="h-11 text-2xl text-slate-300 pl-2 bg-transparent border-b-2 border-neutral-100 outline-none focus:bg-neutral-800 placeholder:opacity-50 w-3/4"
+            type="text"
+            placeholder="Digite o seu nome"
+            {...register("name")}
+          />
+          <input
+            className="h-11 text-2xl text-slate-300 pl-2 bg-transparent border-b-2 border-neutral-100 outline-none focus:bg-neutral-800 placeholder:opacity-50 w-3/4"
+            type="email"
+            placeholder="Digite o seu e-mail"
+            {...register("email")}
+          />
+          <input
+            className="h-11 text-2xl text-slate-300 pl-2 bg-transparent border-b-2 border-neutral-100 outline-none focus:bg-neutral-800 placeholder:opacity-50 w-3/4"
+            type="password"
+            placeholder="Digite sua senha"
+            {...register("password")}
+          />
+        </div>
+
+        <Button text="Cadastrar" onclick={handleSubmit(onSubmit)} />
+      </form>
+      <a href="#" className="text-slate-300 underline">
+        Ja tem login?
+      </a>
+    </div>
   );
 }
-
-const FormField = styled.form`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-
-  width: 100%;
-  height: 100%;
-`;
-
-const WrapperStyled = styled(WrapperField)`
-  padding: 10px 60px;
-  display: flex;
-  justify-content: start;
-  align-items: normal;
-`;
-
-const Input = styled.input<{ $inputSize?: string }>`
-  width: 100%;
-  height: 40px;
-
-  border-radius: 5px;
-  color: #c3c3c3;
-
-  padding: 0px 5px;
-
-  background-color: #464949;
-
-  outline: 1px solid #313333;
-  border: none;
-
-  font-size: ${(props) => props.$inputSize || "1vw"};
-  font-weight: 700;
-`;
-
-const Label = styled.label<{ $labelSize?: string }>`
-  font-size: ${(props) => props.$labelSize || "1vw"};
-  color: #c3c3c3;
-  font-weight: 700;
-  opacity: 0.5;
-
-  margin-bottom: 10px;
-`;
-
-const Link = styled.a`
-  color: #c3c3c3;
-  text-decoration: underline;
-  cursor: pointer;
-`;

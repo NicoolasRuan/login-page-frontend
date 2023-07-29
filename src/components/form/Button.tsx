@@ -13,12 +13,12 @@ const Btn = styled.input`
   width: 200px;
   height: 50px;
 
-  margin: 30px 10px;
-
   font-size: 1vw;
   font-weight: 700;
 
-  background-color: #464949;
+  margin-top: 50px;
+
+  background-color: #3f3f46;
 
   border: none;
   opacity: 0.5;
